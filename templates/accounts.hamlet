@@ -1,0 +1,98 @@
+<div .ui.container>
+    <h1>
+      Accounts
+    <h3>
+      <a
+        data-bs-toggle="collapse"
+        href="#bankingCollapse"
+        role="button" aria-expanded="true"
+        aria-controls="bankingCollapse"
+        >
+             Banking and Investment
+    <table .table.collapse.show.multi-collapse #bankingCollapse>
+      <thead>
+        <tr>
+          <th scope="col" .text-end >Name
+          <th scope="col" .text-end >Account Number
+          <th scope="col" .text-end >Type
+          <th scope="col" .text-end >Passive Gain/Loss this month ($)
+          <th scope="col" .text-end >Passive Gain/Loss this month (%)
+          <th scope="col" .text-end >Deposits/Withdrawls Gain/Loss this month ($)
+          <th scope="col" .text-end >Deposits/Withdrawls Gain/Loss this month (%)
+          <th scope="col" .text-end >Deposits this month ($)
+          <th scope="col" .text-end >Withdrawls this month ($)
+          <th scope="col" .text-end >Current Value
+      <tbody>
+        <tr>
+          <th scope="row" .text-end>Fidelity Individual
+          <td .text-end > ...5555
+          <td .text-end > Individual Investment
+          <td .text-danger.text-end > (-$35.26)
+          <td .text-danger.text-end > (-0.1%)
+          <td .text-success.text-end > +$1,400.00
+          <td .text-success.text-end > +2%
+          <td .text-success.text-end > +$1,500.00
+          <td .text-danger.text-end > (-$100.00)
+          <td .text-end > $192,885.08
+        <tr>
+          <th scope="row" .text-end>Chase
+          <td .text-end > ...5555
+          <td .text-end > Checking
+          <td .text-danger.text-end > (-$35.26)
+          <td .text-danger.text-end > (-0.1%)
+          <td .text-success.text-end > +$1,400.00
+          <td .text-success.text-end > +2%
+          <td .text-success.text-end > +$1,500.00
+          <td .text-danger.text-end > (-$100.00)
+          <td .text-end > $192,885.08
+        <tr>
+          <th scope="row" .text-end>Chase
+          <td .text-end > ...5555
+          <td .text-end > Savings
+          <td .text-danger.text-end > (-$35.26)
+          <td .text-danger.text-end > (-0.1%)
+          <td .text-success.text-end > +$1,400.00
+          <td .text-success.text-end > +2%
+          <td .text-success.text-end > +$1,500.00
+          <td .text-danger.text-end > (-$100.00)
+          <td .text-end > $192,885.08
+        <tr>
+          <th scope="row" .text-end>Chase
+          <td .text-end > ...5555
+          <td .text-end > Savings
+          <td .text-danger.text-end > (-$35.26)
+          <td .text-danger.text-end > (-0.1%)
+          <td .text-success.text-end > +$1,400.00
+          <td .text-success.text-end > +2%
+          <td .text-success.text-end > +$1,500.00
+          <td .text-danger.text-end > (-$100.00)
+          <td .text-end > $192,885.08
+    <h3>
+      <a
+        data-bs-toggle="collapse"
+        href="#creditCardCollapse"
+        role="button" aria-expanded="true"
+        aria-controls="creditCardCollapse"
+        >
+            Credit Card Accounts
+    <table .table.collapse.show.multi-collapse #creditCardCollapse>
+      <thead>
+        <tr>
+          <th scope="col" .text-end >Name
+          <th scope="col" .text-end >Account Number
+          <th scope="col" .text-end >Current Balance
+          <th scope="col" .text-end >Available Credit
+          <th scope="col" .text-end >Total Credit
+      <tbody>
+        <tr>
+          <th scope="row" .text-end>Capital One
+          <td .text-end > ...5555
+          <td .text-danger.text-end > $1,014.77
+          <td .text-end > $13,920.59
+          <td .text-end > $15,000.00
+        <tr>
+          <th scope="row" .text-end>Visa
+          <td .text-end > ...5555
+          <td .text-danger.text-end > $1,014.77
+          <td .text-end > $13,920.59
+          <td .text-end > $15,000.00
