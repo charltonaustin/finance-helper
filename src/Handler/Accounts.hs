@@ -5,20 +5,45 @@
 {-# LANGUAGE TypeFamilies #-}
 module Handler.Accounts where
 import           Data.Text                (Text, pack)
-import Import
+import Foundation ( DB, Handler )
+import Import.NoFoundation
     ( ($),
       Semigroup((<>)),
       widgetFile,
-      User(userIdent),
+      Comment,
+      Entity,
       (.),
       toHtml,
       setTitle,
+      selectList,
       Html,
+      Entity(entityVal),
+      SelectOpt(Asc),
+      EntityField(CommentId),
+      Comment(commentMessage),
       Yesod(defaultLayout),
-      Handler )
+      YesodPersist(runDB) )
 
 getAccountsR :: Handler Html
 getAccountsR = do
-    defaultLayout $ do
-        setTitle . toHtml $ (pack "Charlton")  <> "'s User page"
-        $(widgetFile "accounts")
+  allComments <- runDB $ getAllComments
+
+  defaultLayout $ do
+    let (_, _, commentListId) = commentIds
+    setTitle . toHtml $ (pack "Charlton")  <> "'s User page"
+    $(widgetFile "accounts")
+
+deleteAccountsR :: Handler Html
+deleteAccountsR = do
+  allComments <- runDB $ getAllComments
+
+  defaultLayout $ do
+    let (_, _, commentListId) = commentIds
+    setTitle . toHtml $ (pack "Charlton")  <> "'s User page"
+    $(widgetFile "accounts")
+
+getAllComments :: DB [Entity Comment]
+getAllComments = selectList [] [Asc CommentId]
+
+commentIds :: (Text, Text, Text)
+commentIds = ("js-commentForm", "js-createCommentTextarea", "js-commentList")

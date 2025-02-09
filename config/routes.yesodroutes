@@ -13,4 +13,4 @@
 
 /profile ProfileR GET
 
-/accounts AccountsR GET
+/accounts AccountsR GET DELETE

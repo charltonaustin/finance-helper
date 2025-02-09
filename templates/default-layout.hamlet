@@ -39,7 +39,7 @@ $else
                 ^{widget}
 
 <!-- Footer -->
-<footer .footer>
+<footer .bd-footer .py-5 .mt-5 .bd-light>
     <div .container>
         <p .text-muted>
             #{appCopyright $ appSettings master}

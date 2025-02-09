@@ -1,4 +1,13 @@
 <div .ui.container>
+    <div .col-lg-4.col-lg-offset-1>
+        <div .bs-callout.bs-callout-info>
+            <small>
+                Your comments will appear here. You can also open the
+                console log to see the raw response from the server.
+            <ul ##{commentListId}>
+                $forall comment <- allComments
+                    <li>#{commentMessage $ entityVal comment} -
+
     <h1>
       Accounts
     <h3>
@@ -9,6 +18,7 @@
         aria-controls="bankingCollapse"
         >
              Banking and Investment
+    <button type="button" .btn.btn-link.ps-0> Add Account
     <table .table.collapse.show.multi-collapse #bankingCollapse>
       <thead>
         <tr>
@@ -34,6 +44,8 @@
           <td .text-success.text-end > +$1,500.00
           <td .text-danger.text-end > (-$100.00)
           <td .text-end > $192,885.08
+          <td>
+            <i .bi.bi-trash>
         <tr>
           <th scope="row" .text-end>Chase
           <td .text-end > ...5555
@@ -45,6 +57,8 @@
           <td .text-success.text-end > +$1,500.00
           <td .text-danger.text-end > (-$100.00)
           <td .text-end > $192,885.08
+          <td>
+            <i .bi.bi-trash>
         <tr>
           <th scope="row" .text-end>Chase
           <td .text-end > ...5555
@@ -56,6 +70,8 @@
           <td .text-success.text-end > +$1,500.00
           <td .text-danger.text-end > (-$100.00)
           <td .text-end > $192,885.08
+          <td>
+            <i .bi.bi-trash>
         <tr>
           <th scope="row" .text-end>Chase
           <td .text-end > ...5555
@@ -67,6 +83,8 @@
           <td .text-success.text-end > +$1,500.00
           <td .text-danger.text-end > (-$100.00)
           <td .text-end > $192,885.08
+          <td>
+            <i .bi.bi-trash>
     <h3>
       <a
         data-bs-toggle="collapse"
@@ -74,7 +92,8 @@
         role="button" aria-expanded="true"
         aria-controls="creditCardCollapse"
         >
-            Credit Card Accounts
+            Credit Card 
+    <button type="button" .btn.btn-link.ps-0> Add Account
     <table .table.collapse.show.multi-collapse #creditCardCollapse>
       <thead>
         <tr>
@@ -90,9 +109,13 @@
           <td .text-danger.text-end > $1,014.77
           <td .text-end > $13,920.59
           <td .text-end > $15,000.00
+          <td>
+            <i .bi.bi-trash>
         <tr>
           <th scope="row" .text-end>Visa
           <td .text-end > ...5555
           <td .text-danger.text-end > $1,014.77
           <td .text-end > $13,920.59
           <td .text-end > $15,000.00
+          <td>
+            <i .bi.bi-trash>

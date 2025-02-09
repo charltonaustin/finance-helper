@@ -23,7 +23,7 @@ If you have trouble, refer to the [Yesod Quickstart guide](https://www.yesodweb.
 Start a development server with:
 
 ```
-stack exec -- yesod devel
+stack clean && stack build && stack exec -- yesod devel
 ```
 
 As your code changes, your site will be automatically recompiled and redeployed to localhost.
