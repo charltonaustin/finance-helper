@@ -35,3 +35,8 @@ AssetValue
     assetId AssetId
     value   Int
     date    Day
+AssetDeposit
+    value Int
+    assetAccountId AssetAccountId
+    date Day
+

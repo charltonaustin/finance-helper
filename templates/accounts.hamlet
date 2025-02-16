@@ -5,8 +5,8 @@
                 Your comments will appear here. You can also open the
                 console log to see the raw response from the server.
             <ul ##{commentListId}>
-                $forall comment <- allComments
-                    <li>#{commentMessage $ entityVal comment} -
+                $forall account <- allAccounts
+                    <li>#{assetAccountName $ entityVal account} -
 
     <h1>
       Accounts
@@ -18,7 +18,9 @@
         aria-controls="bankingCollapse"
         >
              Banking and Investment
-    <button type="button" .btn.btn-link.ps-0> Add Account
+
+    <form .form-horizontal method=post action=@{AccountsR}#forms enctype=#{formEnctype}>
+      <button type="submit" .btn.btn-link.ps-0> Add Account
     <table .table.collapse.show.multi-collapse #bankingCollapse>
       <thead>
         <tr>
