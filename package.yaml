@@ -17,6 +17,7 @@ dependencies:
 - persistent >=2.9 && <2.14
 - persistent-postgresql >=2.13 && <2.14
 - persistent-template >=2.5 && <2.14
+- random >= 1.2
 - template-haskell
 - shakespeare >=2.0 && <2.1
 - hjsmin >=0.1 && <0.3
@@ -26,6 +27,7 @@ dependencies:
 - http-client-tls >=0.3 && <0.4
 - http-conduit >=2.3 && <2.4
 - directory >=1.1 && <1.4
+- esqueleto >= 3
 - warp >=3.0 && <3.4
 - data-default
 - aeson >=1.4 && <2.1
@@ -41,6 +43,7 @@ dependencies:
 - time
 - case-insensitive
 - wai
+- wai-extra
 - foreign-store
 
 # The library contains all of our application code. The executable

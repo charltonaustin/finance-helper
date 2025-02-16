@@ -11,6 +11,93 @@
 module Foundation where
 
 import Import.NoFoundation
+    ( fst,
+      snd,
+      ($),
+      Eq((==)),
+      Monad(return),
+      Bool(True),
+      Maybe(..),
+      IO,
+      Either,
+      (<$>),
+      isJust,
+      isNothing,
+      flip,
+      (++),
+      not,
+      (||),
+      breadcrumbs,
+      defaultClientSessionBackend,
+      defaultYesodMiddleware,
+      getApprootText,
+      guessApproot,
+      widgetToPageContent,
+      defaultCsrfCookieName,
+      defaultCsrfHeaderName,
+      getCurrentRoute,
+      getMessage,
+      getYesod,
+      withUrlRenderer,
+      mkYesodData,
+      addStylesheet,
+      parseRoutesFile,
+      defaultFormMessage,
+      defaultGetDBRunner,
+      base64md5,
+      (.),
+      LByteString,
+      Html,
+      HasHttpManager(..),
+      Manager,
+      LogLevel(LevelError, LevelWarn),
+      Entity(Entity),
+      Unique(UniqueUser),
+      PersistStoreWrite(insert),
+      PersistUniqueRead(getBy),
+      SqlPersistT,
+      SqlBackend,
+      Lang,
+      RenderMessage(..),
+      Text,
+      ReaderT,
+      MonadUnliftIO,
+      YesodBreadcrumbs(..),
+      MonadHandler(liftHandler, HandlerSite),
+      Yesod(approot, makeLogger, shouldLogIO, addStaticContent,
+            isAuthorized, authRoute, defaultLayout, yesodMiddleware,
+            makeSessionBackend),
+      ToTypedContent,
+      Approot(ApprootRequest),
+      AuthResult(Authorized, Unauthorized),
+      HandlerFor,
+      PageContent(pageBody, pageTitle, pageHead),
+      SessionBackend,
+      RenderRoute(renderRoute, Route),
+      Route(StaticRoute, LogoutR, LoginR),
+      FormMessage,
+      FormResult,
+      MForm,
+      DBRunner,
+      YesodPersist(..),
+      YesodPersistRunner(..),
+      Static,
+      AppSettings(appShouldLogAll, appAuthDummyLogin, appRoot,
+                  appCopyright, appAnalytics, appStaticDir),
+      widgetFile,
+      AssetAccountId,
+      UserId,
+      User(User, userPassword, userIdent),
+      css_bootstrap_css,
+      getAuth,
+      maybeAuthPair,
+      AuthPlugin,
+      AuthenticationResult(Authenticated),
+      Creds(credsIdent),
+      YesodAuth(maybeAuthId, authPlugins, authenticate,
+                redirectToReferer, logoutDest, loginDest, AuthId),
+      YesodAuthPersist,
+      Auth )
 import Data.Kind            (Type)
 import Database.Persist.Sql (ConnectionPool, runSqlPool)
 import Text.Hamlet          (hamletFile)
@@ -131,12 +218,12 @@ instance Yesod App where
                     , menuItemRoute = AuthR LoginR
                     , menuItemAccessCallback = isNothing muser
                     }
-                , NavbarRight $ MenuItem
+                 , NavbarRight $ MenuItem
                     { menuItemLabel = "Logout"
                     , menuItemRoute = AuthR LogoutR
                     , menuItemAccessCallback = isJust muser
                     }
-                ]
+               ]
 
         let navbarLeftMenuItems = [x | NavbarLeft x <- menuItems]
         let navbarRightMenuItems = [x | NavbarRight x <- menuItems]
@@ -174,6 +261,10 @@ instance Yesod App where
     isAuthorized RobotsR _ = return Authorized
     isAuthorized (StaticR _) _ = return Authorized
     isAuthorized AccountsR _ = return Authorized
+    isAuthorized (AssetAccountR _ ) _ = return Authorized
+    isAuthorized NewAssetAccountR _ = return Authorized
+    isAuthorized CreateAssetAccountR _ = return Authorized
+    isAuthorized (EditAssetAccountR _) _ = return Authorized
 
     -- the profile route requires that the user is authenticated, so we
     -- delegate to that function
@@ -227,6 +318,7 @@ instance YesodBreadcrumbs App where
     breadcrumb (AuthR _) = return ("Login", Just HomeR)
     breadcrumb ProfileR = return ("Profile", Just HomeR)
     breadcrumb AccountsR = return ("Accounts", Just HomeR)
+    breadcrumb NewAssetAccountR = return ("New Asset Account", Just AccountsR)
     breadcrumb  _ = return ("home", Nothing)
 
 -- How to run database actions.

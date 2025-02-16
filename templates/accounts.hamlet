@@ -1,13 +1,5 @@
 <div .ui.container>
     <div .col-lg-4.col-lg-offset-1>
-        <div .bs-callout.bs-callout-info>
-            <small>
-                Your comments will appear here. You can also open the
-                console log to see the raw response from the server.
-            <ul ##{commentListId}>
-                $forall account <- allAccounts
-                    <li>#{assetAccountName $ entityVal account} -
-
     <h1>
       Accounts
     <h3>
@@ -19,8 +11,7 @@
         >
              Banking and Investment
 
-    <form .form-horizontal method=post action=@{AccountsR}#forms enctype=#{formEnctype}>
-      <button type="submit" .btn.btn-link.ps-0> Add Account
+    <a href="@{NewAssetAccountR}">Add Account</a>
     <table .table.collapse.show.multi-collapse #bankingCollapse>
       <thead>
         <tr>
@@ -34,59 +25,24 @@
           <th scope="col" .text-end >Deposits this month ($)
           <th scope="col" .text-end >Withdrawls this month ($)
           <th scope="col" .text-end >Current Value
-      <tbody>
-        <tr>
-          <th scope="row" .text-end>Fidelity Individual
-          <td .text-end > ...5555
-          <td .text-end > Individual Investment
-          <td .text-danger.text-end > (-$35.26)
-          <td .text-danger.text-end > (-0.1%)
-          <td .text-success.text-end > +$1,400.00
-          <td .text-success.text-end > +2%
-          <td .text-success.text-end > +$1,500.00
-          <td .text-danger.text-end > (-$100.00)
-          <td .text-end > $192,885.08
-          <td>
-            <i .bi.bi-trash>
-        <tr>
-          <th scope="row" .text-end>Chase
-          <td .text-end > ...5555
-          <td .text-end > Checking
-          <td .text-danger.text-end > (-$35.26)
-          <td .text-danger.text-end > (-0.1%)
-          <td .text-success.text-end > +$1,400.00
-          <td .text-success.text-end > +2%
-          <td .text-success.text-end > +$1,500.00
-          <td .text-danger.text-end > (-$100.00)
-          <td .text-end > $192,885.08
-          <td>
-            <i .bi.bi-trash>
-        <tr>
-          <th scope="row" .text-end>Chase
-          <td .text-end > ...5555
-          <td .text-end > Savings
-          <td .text-danger.text-end > (-$35.26)
-          <td .text-danger.text-end > (-0.1%)
-          <td .text-success.text-end > +$1,400.00
-          <td .text-success.text-end > +2%
-          <td .text-success.text-end > +$1,500.00
-          <td .text-danger.text-end > (-$100.00)
-          <td .text-end > $192,885.08
-          <td>
-            <i .bi.bi-trash>
-        <tr>
-          <th scope="row" .text-end>Chase
-          <td .text-end > ...5555
-          <td .text-end > Savings
-          <td .text-danger.text-end > (-$35.26)
-          <td .text-danger.text-end > (-0.1%)
-          <td .text-success.text-end > +$1,400.00
-          <td .text-success.text-end > +2%
-          <td .text-success.text-end > +$1,500.00
-          <td .text-danger.text-end > (-$100.00)
-          <td .text-end > $192,885.08
-          <td>
-            <i .bi.bi-trash>
+      $forall t <- transactions
+        <tbody>
+          <tr>
+            <th scope="row" .text-end>#{name t}
+            <td .text-end > #{number t}
+            <td .text-end > #{accountType t}
+            <td .text-danger.text-end > (-$35.26)
+            <td .text-danger.text-end > (-0.1%)
+            <td .#{getColor (depositWithdrawalGainLoss t)}.text-end > #{formatDollars (depositWithdrawalGainLoss t)}
+            <td .text-success.text-end > +2%
+            <td .text-success.text-end > #{formatDollars (deposit t)}
+            <td .text-danger.text-end > #{formatDollars ( -1 * (withdrawal t))}
+            <td .#{getColor (currentValue t)}.text-end > #{formatDollars (currentValue t)}
+            <td>
+              <form .form-horizontal method=post action=@{AssetAccountR (assetAccountId t)} >
+                <input type="hidden" name="_method" value="DELETE">
+                <button type="submit" .btn.ps-0>
+                  <i .bi.bi-trash>
     <h3>
       <a
         data-bs-toggle="collapse"
@@ -94,7 +50,7 @@
         role="button" aria-expanded="true"
         aria-controls="creditCardCollapse"
         >
-            Credit Card 
+            Credit Card
     <button type="button" .btn.btn-link.ps-0> Add Account
     <table .table.collapse.show.multi-collapse #creditCardCollapse>
       <thead>

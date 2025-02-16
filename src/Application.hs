@@ -23,7 +23,54 @@ module Application
 import Control.Monad.Logger                 (liftLoc, runLoggingT)
 import Database.Persist.Postgresql          (createPostgresqlPool, pgConnStr,
                                              pgPoolSize, runSqlPool)
-import Import
+import Foundation
+    ( Route(AccountsR, AssetAccountR, NewAssetAccountR, EditAssetAccountR, CreateAssetAccountR, StaticR, AuthR, FaviconR, RobotsR, HomeR,
+            CommentR, ProfileR),
+      App(..),
+      Handler,
+      resourcesApp,
+      unsafeHandler )
+import Network.Wai.Middleware.MethodOverride (methodOverride)
+import Network.Wai.Middleware.MethodOverridePost (methodOverridePost)
+import Import.NoFoundation
+    ( ($),
+      Monad((>>=), return),
+      Show(show),
+      Bool(True),
+      Int,
+      IO,
+      flip,
+      when,
+      error,
+      (++),
+      runMigration,
+      defaultMiddlewaresNoLogging,
+      toWaiAppPlain,
+      mkYesodDispatch,
+      static,
+      staticDevel,
+      (.),
+      Default(def),
+      LogLevel(LevelError),
+      SqlBackend,
+      ReaderT,
+      Application,
+      Yesod(messageLoggerSource),
+      YesodPersist(runDB),
+      loadYamlSettings,
+      loadYamlSettingsArgs,
+      useEnv,
+      configSettingsYml,
+      develMainHelper,
+      getDevSettings,
+      makeYesodLogger,
+      loggerSet,
+      AppSettings(appHost, appMutableStatic, appStaticDir,
+                  appDatabaseConf, appDetailedRequestLogging, appIpFromHeader,
+                  appPort),
+      configSettingsYmlValue,
+      migrateAll,
+      getAuth )
 import Language.Haskell.TH.Syntax           (qLocation)
 import Network.HTTP.Client.TLS              (getGlobalManager)
 import Network.Wai (Middleware)
@@ -45,6 +92,10 @@ import Handler.Home
 import Handler.Comment
 import Handler.Profile
 import Handler.Accounts
+import Handler.AssetAccount
+import Handler.EditAssetAccount
+import Handler.NewAssetAccount
+import Handler.CreateAssetAccount
 
 -- This line actually creates our YesodDispatch instance. It is the second half
 -- of the call to mkYesodData which occurs in Foundation.hs. Please see the
@@ -94,8 +145,9 @@ makeApplication :: App -> IO Application
 makeApplication foundation = do
     logWare <- makeLogWare foundation
     -- Create the WAI application and apply middlewares
+    let middlewares = defaultMiddlewaresNoLogging . methodOverride . methodOverridePost
     appPlain <- toWaiAppPlain foundation
-    return $ logWare $ defaultMiddlewaresNoLogging appPlain
+    return $ logWare $ middlewares appPlain
 
 makeLogWare :: App -> IO Middleware
 makeLogWare foundation =

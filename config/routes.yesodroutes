@@ -13,4 +13,11 @@
 
 /profile ProfileR GET
 
-/accounts AccountsR GET DELETE POST
+/accounts AccountsR GET 
+
+/asset-account CreateAssetAccountR POST
+/asset-account/#AssetAccountId AssetAccountR GET DELETE PUT
+
+/asset-account/#AssetAccountId/edit EditAssetAccountR GET
+
+!/asset-account/new NewAssetAccountR GET
