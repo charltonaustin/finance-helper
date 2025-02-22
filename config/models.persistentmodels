@@ -22,15 +22,19 @@ CreditCardAccount
     totalCredit   Int
 CreditCardTransaction
     name                Text
-    creditCardAccountId CreditCardAccountId
+    creditCardAccountId CreditCardAccountId OnDeleteCascade
     amount              Int
+CreditCardPassiveTransaction
+    amount              Int
+    creditCardAccountId CreditCardAccountId OnDeleteCascade
+    date                Day
 AssetAccount
     name          Text
     accountNumber Text
     type          Text
 Asset
     name            Text
-    assetAccountId  AssetAccountId
+    assetAccountId  AssetAccountId OnDeleteCascade
 AssetValue
     assetId AssetId
     value   Int
@@ -40,6 +44,10 @@ AssetDeposit
     assetAccountId AssetAccountId OnDeleteCascade
     date Day
 AssetWithdrawal
+    value Int
+    assetAccountId AssetAccountId OnDeleteCascade
+    date Day
+PassiveAssetChange
     value Int
     assetAccountId AssetAccountId OnDeleteCascade
     date Day

@@ -31,10 +31,10 @@
             <th scope="row" .text-end>#{name t}
             <td .text-end > #{number t}
             <td .text-end > #{accountType t}
-            <td .text-danger.text-end > (-$35.26)
-            <td .text-danger.text-end > (-0.1%)
+            <td .#{getColor (passiveChange t)}.text-end > #{formatDollars (passiveChange t)}
+            <td .#{getColor (passiveChange t)}.text-end > #{formatPercent (divideAndRound (passiveChange t) (abs (currentValue t)))}
             <td .#{getColor (depositWithdrawalGainLoss t)}.text-end > #{formatDollars (depositWithdrawalGainLoss t)}
-            <td .text-success.text-end > +2%
+            <td .#{getColor (depositWithdrawalGainLoss t)}.text-end > #{formatPercent (divideAndRound (depositWithdrawalGainLoss t) (abs (currentValue t)))}
             <td .text-success.text-end > #{formatDollars (deposit t)}
             <td .text-danger.text-end > #{formatDollars ( -1 * (withdrawal t))}
             <td .#{getColor (currentValue t)}.text-end > #{formatDollars (currentValue t)}

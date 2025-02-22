@@ -7,8 +7,10 @@
 module Handler.Accounts where
 
 import Data.List (intercalate, splitAt, unfoldr)
+import Service.Accounting (divideAndRound,positiveNegativeFormat, formatPercent)
 import qualified Data.Map as Map
 import Data.Text (pack, unpack)
+import Text.Printf (printf)
 import Foundation (DB, Handler, Route (AssetAccountR, NewAssetAccountR))
 import Import.NoFoundation
   ( AssetAccount (..),
@@ -52,7 +54,7 @@ import Import.NoFoundation
     ($),
     (++),
     (.),
-    (>=),
+    (>=), PassiveAssetChange,
   )
 import Text.Printf (printf)
 
@@ -60,6 +62,7 @@ data AccountTransaction = AccountTransaction
     { name                      :: String
     , number                    :: String
     , accountType               :: String
+    , passiveChange             :: Int
     , depositWithdrawalGainLoss :: Int
     , deposit                   :: Int
     , withdrawal                :: Int
@@ -69,12 +72,14 @@ data AccountTransaction = AccountTransaction
 
 getAccountsR :: Handler Html
 getAccountsR = do
-  allAccounts <- runDB $ getAllAccounts
-  deposits <- runDB $ getAllDeposits
-  withdrawals <- runDB $ getAllWithdrawals
+  allAccounts <- runDB getAllAccounts
+  deposits <- runDB getAllDeposits
+  withdrawals <- runDB getAllWithdrawals
+  passiveChanges <- runDB getAllPassiveChanges
   let accountDepositSum = sumAccountValue allAccounts deposits assetDepositAssetAccountId assetDepositValue
   let withdrawalSum = sumAccountValue allAccounts withdrawals assetWithdrawalAssetAccountId assetWithdrawalValue
-  let transactions = toTransactionsWith allAccounts accountDepositSum withdrawalSum
+  let passiveSum = sumAccountValue allAccounts withdrawals assetWithdrawalAssetAccountId passiveChanges
+  let transactions = toTransactionsWith allAccounts accountDepositSum withdrawalSum passiveSum
   defaultLayout $ do
     setTitle . toHtml $ pack "Charlton" <> "'s User page"
     $(widgetFile "accounts")
@@ -91,25 +96,32 @@ sumAccountValue allAccounts values getAccountId getValue =
   in accountValues
 
 
-toTransactionsWith :: [Entity AssetAccount] -> [(Entity AssetAccount, Int)] -> [(Entity AssetAccount, Int)] -> [AccountTransaction]
-toTransactionsWith allAccounts deposit withdrawal =
+toTransactionsWith :: [Entity AssetAccount] -> [(Entity AssetAccount, Int)] -> [(Entity AssetAccount, Int)] -> [(Entity AssetAccount, Int)] -> [AccountTransaction]
+toTransactionsWith allAccounts deposit withdrawal passiveChange =
   let depositMap = Map.fromList [(entityKey acc, d) | (acc, d) <- deposit]
       withdrawalMap = Map.fromList [(entityKey acc, w) | (acc, w) <- withdrawal]
+      passiveMap = Map.fromList [(entityKey acc, w) | (acc, w) <- passiveChange]
   in
     [ AccountTransaction
         { name                      = unpack $ assetAccountName (entityVal acc)
         , number                    = unpack $ assetAccountAccountNumber (entityVal acc)
         , accountType               = unpack $ assetAccountType (entityVal acc)
+        , passiveChange             = p
         , depositWithdrawalGainLoss = d - w
         , deposit                   = d
         , withdrawal                = w
-        , currentValue              = d - w
+        , currentValue              = d - w + p
         , assetAccountId            = entityKey acc
         }
     | acc <- allAccounts
     , let d = Map.findWithDefault 0 (entityKey acc) depositMap
     , let w = Map.findWithDefault 0 (entityKey acc) withdrawalMap
+    , let p = Map.findWithDefault 0 (entityKey acc) passiveMap
     ]
+
+getAllPassiveChanges :: DB [Entity PassiveAssetChange]
+getAllPassiveChanges = selectList [] []
+
 getAllAccounts :: DB [Entity AssetAccount]
 getAllAccounts = selectList [] [Asc AssetAccountId]
 
@@ -124,10 +136,9 @@ formatDollars :: Int -> String
 formatDollars amount =
   let dollars = show ((abs amount) `div` 100)
       cents = amount `mod` 100
-      formattedDollars = if (abs amount) >= 100 then addCommas dollars else dollars
-   in if amount < 0
-      then printf "(-$%s.%02d)" formattedDollars cents  -- For negative, wrap in parentheses
-      else printf "+$%s.%02d" formattedDollars cents   -- For positive, add a + before the $
+      commaDollars = if (abs amount) >= 100 then addCommas dollars else dollars
+      formattedDollars = printf "$%s.%02d" commaDollars cents
+   in positiveNegativeFormat amount formattedDollars
 
 -- | Add commas to a numeric string (for thousands separator)
 addCommas :: String -> String

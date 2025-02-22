@@ -19,6 +19,7 @@ import Import.NoFoundation
     FormResult(..),
     IO,
     AssetAccount(..),
+    PassiveAssetChange(..),
     AssetDeposit (..),
     AssetWithdrawal (..),
     Int,
@@ -52,11 +53,13 @@ insertNewAccount :: AccountForm -> Handler ()
 insertNewAccount account = do
   randomDeposit <- liftIO (randomInRange 1 100000000000)
   randomWithdrawal <- liftIO (randomInRange 1 100000000000)
+  randomChange <- liftIO (randomInRange 1 100000000000)
   today <- liftIO getToday
   accountEntity <- runDB $ insertEntity $ AssetAccount (name account) (accountNumber account) (accountType account)
   let accountId = entityKey accountEntity
   _ <- runDB $ insertEntity $ AssetDeposit (abs randomDeposit) accountId today
   _ <- runDB $ insertEntity $ AssetWithdrawal (abs randomWithdrawal) accountId today
+  _ <- runDB $ insertEntity $ PassiveAssetChange randomWithdrawal accountId today
   return ()
 
 getToday :: IO Day
