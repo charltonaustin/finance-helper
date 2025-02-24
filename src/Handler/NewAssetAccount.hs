@@ -6,7 +6,7 @@
 
 module Handler.NewAssetAccount where
 
-import Foundation (Handler, Route (CreateAssetAccountR))
+import Foundation (Handler, Route (CreateAssetAccountsR))
 
 import Form.AssetAccountForm (assetAccountForm)
 

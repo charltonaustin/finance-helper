@@ -4,7 +4,7 @@
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE NoImplicitPrelude #-}
 
-module Handler.CreateAssetAccount where
+module Handler.CreateAssetAccounts where
 
 import Foundation (Handler, App, Route (AccountsR))
 
@@ -39,8 +39,8 @@ import Import.NoFoundation
     (-),
   )
 
-postCreateAssetAccountR  :: Handler Html
-postCreateAssetAccountR = do
+postCreateAssetAccountsR  :: Handler Html
+postCreateAssetAccountsR = do
   ((result, _), _) <- runFormPost assetAccountForm
   case result of
     FormSuccess formData -> do
@@ -53,13 +53,13 @@ insertNewAccount :: AccountForm -> Handler ()
 insertNewAccount account = do
   randomDeposit <- liftIO (randomInRange 1 100000000000)
   randomWithdrawal <- liftIO (randomInRange 1 100000000000)
-  randomChange <- liftIO (randomInRange 1 100000000000)
+  randomChange <- liftIO (randomInRange (-100000000000) 100000000000)
   today <- liftIO getToday
   accountEntity <- runDB $ insertEntity $ AssetAccount (name account) (accountNumber account) (accountType account)
   let accountId = entityKey accountEntity
   _ <- runDB $ insertEntity $ AssetDeposit (abs randomDeposit) accountId today
   _ <- runDB $ insertEntity $ AssetWithdrawal (abs randomWithdrawal) accountId today
-  _ <- runDB $ insertEntity $ PassiveAssetChange randomWithdrawal accountId today
+  _ <- runDB $ insertEntity $ PassiveAssetChange randomChange accountId today
   return ()
 
 getToday :: IO Day

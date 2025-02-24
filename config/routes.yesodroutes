@@ -15,9 +15,11 @@
 
 /accounts AccountsR GET 
 
-/asset-account CreateAssetAccountR POST
-/asset-account/#AssetAccountId AssetAccountR GET DELETE PUT
+/asset-accounts/file CreateAssetAccountsFileR POST
+/asset-accounts/file/new NewAssetAccountFileR GET
+
+/asset-accounts/new NewAssetAccountR GET
+/asset-accounts CreateAssetAccountsR POST
 
 /asset-account/#AssetAccountId/edit EditAssetAccountR GET
-
-!/asset-account/new NewAssetAccountR GET
+/asset-account/#AssetAccountId AssetAccountR GET DELETE PUT

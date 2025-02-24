@@ -12,6 +12,8 @@
              Banking and Investment
 
     <a href="@{NewAssetAccountR}">Add Account</a>
+    <div>
+        <a href="@{NewAssetAccountFileR}">Upload Transactions</a>
     <table .table.collapse.show.multi-collapse #bankingCollapse>
       <thead>
         <tr>
@@ -25,7 +27,7 @@
           <th scope="col" .text-end >Deposits this month ($)
           <th scope="col" .text-end >Withdrawls this month ($)
           <th scope="col" .text-end >Current Value
-      $forall t <- transactions
+      $forall t <- assetTransactions
         <tbody>
           <tr>
             <th scope="row" .text-end>#{name t}
@@ -57,6 +59,8 @@
         <tr>
           <th scope="col" .text-end >Name
           <th scope="col" .text-end >Account Number
+          <th scope="col" .text-end >Passive Gain/Loss this month ($)
+          <th scope="col" .text-end >Passive Gain/Loss this month (%)
           <th scope="col" .text-end >Current Balance
           <th scope="col" .text-end >Available Credit
           <th scope="col" .text-end >Total Credit
@@ -64,14 +68,8 @@
         <tr>
           <th scope="row" .text-end>Capital One
           <td .text-end > ...5555
-          <td .text-danger.text-end > $1,014.77
-          <td .text-end > $13,920.59
-          <td .text-end > $15,000.00
-          <td>
-            <i .bi.bi-trash>
-        <tr>
-          <th scope="row" .text-end>Visa
-          <td .text-end > ...5555
+          <td .text-end > +$1,392.05
+          <td .text-end > +10.00%
           <td .text-danger.text-end > $1,014.77
           <td .text-end > $13,920.59
           <td .text-end > $15,000.00

@@ -263,7 +263,9 @@ instance Yesod App where
     isAuthorized AccountsR _ = return Authorized
     isAuthorized (AssetAccountR _ ) _ = return Authorized
     isAuthorized NewAssetAccountR _ = return Authorized
-    isAuthorized CreateAssetAccountR _ = return Authorized
+    isAuthorized NewAssetAccountFileR  _ = return Authorized
+    isAuthorized CreateAssetAccountsR _ = return Authorized
+    isAuthorized CreateAssetAccountsFileR _ = return Authorized
     isAuthorized (EditAssetAccountR _) _ = return Authorized
 
     -- the profile route requires that the user is authenticated, so we

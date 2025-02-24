@@ -1,4 +1,4 @@
 <div .ui.container>
-  <form .form-horizontal.needs-validation method=post action=@{CreateAssetAccountR}#forms enctype=#{formEnctype} novalidate>
+  <form .form-horizontal.needs-validation method=post action=@{CreateAssetAccountsR}#forms enctype=#{formEnctype} novalidate>
     ^{formWidget}
     <button type="submit" .btn.btn-primary.mt-3> Submit

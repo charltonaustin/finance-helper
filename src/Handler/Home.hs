@@ -5,56 +5,37 @@
 {-# LANGUAGE NoImplicitPrelude #-}
 
 module Handler.Home where
-
+import Form.FileForm
 import Foundation
-  ( DB,
-    Form,
-    Handler,
-    Route (AuthR, CommentR, HomeR, ProfileR),
+  (
+    DB
+  , Handler
+  , Route (AuthR, CommentR, HomeR, ProfileR)
   )
 import Import.NoFoundation
-  ( Applicative ((<*>)),
-    Comment (commentMessage),
-    Entity (entityVal),
-    EntityField (CommentId),
-    FieldSettings
-      ( FieldSettings,
-        fsAttrs,
-        fsId,
-        fsLabel,
-        fsName,
-        fsTooltip
-      ),
-    FileInfo (fileContentType),
-    FormResult (FormSuccess),
-    Html,
-    Maybe (..),
-    SelectOpt (Asc),
-    Text,
-    ToJSON (toJSON),
-    Yesod (defaultLayout),
-    YesodPersist (runDB),
-    Route(LoginR),
-    areq,
-    fileAFormReq,
-    generateFormPost,
-    newIdent,
-    runFormPost,
-    selectList,
-    setTitle,
-    textField,
-    widgetFile,
-    ($),
-    (<$>),
+  (
+    Comment (commentMessage)
+  , Entity (entityVal)
+  , EntityField (CommentId)
+  , FileInfo (fileContentType)
+  , FormResult (FormSuccess)
+  , Html
+  , Maybe (..)
+  , SelectOpt (Asc)
+  , Text
+  , ToJSON (toJSON)
+  , Yesod (defaultLayout)
+  , YesodPersist (runDB)
+  , Route(LoginR)
+  , generateFormPost
+  , newIdent
+  , runFormPost
+  , selectList
+  , setTitle
+  , widgetFile
+  , ($)
   )
 import Text.Julius (RawJS (..))
-import Yesod.Form.Bootstrap3 (BootstrapFormLayout (..), renderBootstrap3)
-
--- Define our data that will be used for creating the form.
-data FileForm = FileForm
-  { fileInfo :: FileInfo,
-    fileDescription :: Text
-  }
 
 -- This is a handler function for the GET request method on the HomeR
 -- resource pattern. All of your resource patterns are defined in
@@ -65,7 +46,7 @@ data FileForm = FileForm
 -- inclined, or create a single monolithic file.
 getHomeR :: Handler Html
 getHomeR = do
-  (formWidget, formEnctype) <- generateFormPost sampleForm
+  (formWidget, formEnctype) <- generateFormPost (fileForm [])
   let submission = Nothing :: Maybe FileForm
       handlerName = "getHomeR" :: Text
   allComments <- runDB $ getAllComments
@@ -78,7 +59,7 @@ getHomeR = do
 
 postHomeR :: Handler Html
 postHomeR = do
-  ((result, formWidget), formEnctype) <- runFormPost sampleForm
+  ((result, formWidget), formEnctype) <- runFormPost (fileForm [])
   let handlerName = "postHomeR" :: Text
       submission = case result of
         FormSuccess res -> Just res
@@ -90,26 +71,6 @@ postHomeR = do
     aDomId <- newIdent
     setTitle "Welcome To Yesod!"
     $(widgetFile "homepage")
-
-sampleForm :: Form FileForm
-sampleForm =
-  renderBootstrap3 BootstrapBasicForm $
-    FileForm
-      <$> fileAFormReq "Choose a file"
-      <*> areq textField textSettings Nothing
-  where
-    -- Add attributes like the placeholder and CSS classes.
-    textSettings =
-      FieldSettings
-        { fsLabel = "What's on the file?",
-          fsTooltip = Nothing,
-          fsId = Nothing,
-          fsName = Nothing,
-          fsAttrs =
-            [ ("class", "form-control"),
-              ("placeholder", "File description")
-            ]
-        }
 
 commentIds :: (Text, Text, Text)
 commentIds = ("js-commentForm", "js-createCommentTextarea", "js-commentList")

@@ -24,7 +24,7 @@ import Control.Monad.Logger                 (liftLoc, runLoggingT)
 import Database.Persist.Postgresql          (createPostgresqlPool, pgConnStr,
                                              pgPoolSize, runSqlPool)
 import Foundation
-    ( Route(AccountsR, AssetAccountR, NewAssetAccountR, EditAssetAccountR, CreateAssetAccountR, StaticR, AuthR, FaviconR, RobotsR, HomeR,
+    ( Route(AccountsR, AssetAccountR, NewAssetAccountR, NewAssetAccountFileR, EditAssetAccountR, CreateAssetAccountsR, CreateAssetAccountsFileR, StaticR, AuthR, FaviconR, RobotsR, HomeR,
             CommentR, ProfileR),
       App(..),
       Handler,
@@ -95,7 +95,9 @@ import Handler.Accounts
 import Handler.AssetAccount
 import Handler.EditAssetAccount
 import Handler.NewAssetAccount
-import Handler.CreateAssetAccount
+import Handler.CreateAssetAccountsFile
+import Handler.CreateAssetAccounts
+import Handler.NewAssetAccountFile
 
 -- This line actually creates our YesodDispatch instance. It is the second half
 -- of the call to mkYesodData which occurs in Foundation.hs. Please see the

@@ -21,3 +21,4 @@ cabal.sandbox.config
 \#*
 finance-helper.cabal
 .dir-locals.el
+static/uploads/*
