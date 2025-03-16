@@ -23,7 +23,8 @@ import Import.NoFoundation
   , runDB
   , (<>)
   , ($)
-  , (.), Entity (entityVal)
+  , (.)
+  , Entity (entityVal)
   )
 import Service.AssetAccount (getAllAccounts)
 

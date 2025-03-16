@@ -31,9 +31,14 @@ import Import.NoFoundation
   , entityVal
   , selectList
   , return
+  , drop
+  , replicate
+  , length
+  , (++)
   , ($)
   , (+)
   , (-)
+  , (<=)
   , runDB
   , HandlerFor
   )
@@ -83,6 +88,14 @@ sumAccountValue allAccounts values getAccountId getValue =
       accountValues = [(acc, Map.findWithDefault 0 (entityKey acc) valueMap) | acc <- allAccounts]
   in accountValues
 
+
+maskString :: String -> String
+maskString str =
+    let len = length str
+    in if len <= 4
+        then str  -- If the string is 4 or fewer characters, don't mask
+        else replicate (len - 4) '*' ++ drop (len - 4) str
+
 toTransactionsWith :: [Entity AssetAccount] -> [(Entity AssetAccount, Int)] -> [(Entity AssetAccount, Int)] -> [(Entity AssetAccount, Int)] -> [AccountTransaction]
 toTransactionsWith allAccounts deposits withdrawals passiveChanges =
   let depositMap = Map.fromList [(entityKey acc, d) | (acc, d) <- deposits]
@@ -91,7 +104,7 @@ toTransactionsWith allAccounts deposits withdrawals passiveChanges =
   in
     [ AccountTransaction
         { name                      = unpack $ assetAccountName (entityVal acc)
-        , number                    = unpack $ assetAccountAccountNumber (entityVal acc)
+        , number                    = (maskString (unpack $ assetAccountAccountNumber (entityVal acc)))
         , accountType               = unpack $ assetAccountType (entityVal acc)
         , passiveChange             = p
         , depositWithdrawalGainLoss = d - w

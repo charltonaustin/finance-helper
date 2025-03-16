@@ -11,7 +11,7 @@ import Text.Printf (printf)
 import Prelude hiding ()
 -- Function to divide two Ints and return a Double rounded to two decimal places
 divideAndRound :: Int -> Int -> Double
-divideAndRound _ 0 = error "Division by zero"
+divideAndRound _ 0 = 0
 divideAndRound x y = 100 * fromIntegral x / fromIntegral y
 
 positiveNegativeFormat :: (Num a, Ord a) => a -> String -> String
