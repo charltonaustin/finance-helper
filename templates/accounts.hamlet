@@ -45,6 +45,10 @@
                 <input type="hidden" name="_method" value="DELETE">
                 <button type="submit" .btn.ps-0>
                   <i .bi.bi-trash>
+           <td>
+              <form .form-horizontal method=GET action=@{EditAssetAccountR (assetAccountId t)} >
+                <button type="submit" .btn.ps-0>
+                  <i .bi.bi-pencil>
     <h3>
       <a
         data-bs-toggle="collapse"

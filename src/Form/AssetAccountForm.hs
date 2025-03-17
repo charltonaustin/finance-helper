@@ -26,14 +26,15 @@ import Import.NoFoundation(
    areq,
    (<$>),
    (<*>),
-   ($)
+   ($), intField, Int
   )
 
 data AccountForm = AccountForm
   {
     name :: Text,
     accountNumber :: Text,
-    accountType :: Text
+    accountType :: Text,
+    initialAmount :: Int
   }
 
 
@@ -44,8 +45,8 @@ assetAccountForm =
       <$> areq textField nameSettings Nothing
       <*> areq textField accountIdSettings Nothing
       <*> areq textField typeSetting Nothing
+      <*> areq intField initialAmountSetting Nothing
   where
-    -- Add attributes like the placeholder and CSS classes.
     accountIdSettings =
       FieldSettings
         { fsLabel = "Account Id",
@@ -79,3 +80,14 @@ assetAccountForm =
               ("placeholder", "Fidelity")
             ]
         }
+    initialAmountSetting =
+      FieldSettings
+      { fsLabel = "Initial Amount",
+        fsTooltip = Nothing,
+        fsId = Nothing,
+        fsName = Nothing,
+        fsAttrs =
+          [ ("class", "form-control"),
+            ("placeholder", "0")
+          ]
+      }

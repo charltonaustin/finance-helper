@@ -6,11 +6,17 @@
 
 module Handler.EditAssetAccount where
 
-import Foundation (Handler, Route (AccountsR))
+import Foundation (Handler, Route (AccountsR, AssetAccountR))
+import Data.Text (pack)
 
-import Import.NoFoundation (AssetAccountId, Html, delete, redirect, runDB, setMessage, ($))
+import Form.AssetAccountForm (assetAccountForm)
+import Import.NoFoundation (AssetAccountId, Html, ($), widgetFile, setTitle, (.), toHtml, Yesod(defaultLayout), Semigroup((<>)), generateFormPost)
 
 getEditAssetAccountR :: AssetAccountId -> Handler Html
 getEditAssetAccountR accountId = do
-  redirect AccountsR
+  (formWidget, formEnctype) <- generateFormPost assetAccountForm
+  defaultLayout $ do
+    setTitle . toHtml $ pack "Charlton" <> "'s User page"
+    $(widgetFile "edit-asset-account")
+
 

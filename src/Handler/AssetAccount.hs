@@ -20,4 +20,5 @@ getAssetAccountR accountId = do
 
 putAssetAccountR :: AssetAccountId -> Handler Html
 putAssetAccountR accountId = do
+  setMessage "Do a put"
   redirect AccountsR

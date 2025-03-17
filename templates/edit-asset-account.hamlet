@@ -1,0 +1,14 @@
+<div .ui.container>
+        <h1> Edit Account
+        <form .form-horizontal.needs-validation method=post action=@{AssetAccountR accountId} enctype=#{formEnctype} novalidate>
+            <input type="hidden" name="_method" value="PUT">
+            ^{formWidget}
+
+            <button type="submit" .btn.btn-primary.mt-3> Save
+
+        <lI> Set Initial value
+        <li> Add Asset
+        <li> Add Deposit
+        <li> Add Withdrawl
+        <li> Add Passive Gain
+        <li> Add Passive Loss

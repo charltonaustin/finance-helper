@@ -12,7 +12,7 @@ import Service.Accounting (divideAndRound,positiveNegativeFormat, formatPercent)
 import Service.AssetAccount (getAllData, AccountTransaction(..), sumAllData)
 import Data.Text (pack)
 import Text.Printf (printf)
-import Foundation (Handler, Route (AssetAccountR, NewAssetAccountR, NewAssetAccountFileR))
+import Foundation (Handler, Route (AssetAccountR, NewAssetAccountR, NewAssetAccountFileR, EditAssetAccountR))
 import Import.NoFoundation
   ( Html,
     Int,
